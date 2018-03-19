@@ -2,31 +2,22 @@
 
 import Rx from 'rxjs/Rx';
 
-let stream$ = Rx.Observable.create(
-    observer => {
-        console.log('stream$ was created!');
+let button = document.querySelector('button');
+let input = document.querySelector('input');
 
-        observer.next('One');
+let btn$ = Rx.Observable.fromEvent(button, 'click');
 
-        setTimeout(() => {
-            observer.next('Two');
-        }, 2000);
+let input$ = Rx.Observable.fromEvent(input, 'keyup')
+    .subscribe( event => console.log(event) );
 
-        setTimeout(() => {
-            // observer.complete();
-            observer.error('Something went wrong');
-        }, 3000);
-
-        setTimeout(() => {
-            observer.next('Four');
-        }, 4000);
-
-        observer.next('Five');
-    }
+btn$.subscribe(
+    event => console.log(event),
+    err => console.error(err)
 );
 
-stream$.subscribe(
-    data => console.log(data),
-    err => console.error('Error: ', err),
-    () => console.log('Completed')
-);
+Rx.Observable.fromEvent(document, 'mousemove')
+    .subscribe( event => {
+        document.querySelector('h1')
+            .innerText = `X: ${event.clientX}, Y: ${event.clientY}`;
+    })
+
