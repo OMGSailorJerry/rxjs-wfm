@@ -16,3 +16,4 @@ function createSubscription(name) {
     }    
 };
 
+console.log('---- start -------------------------------')
